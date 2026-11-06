@@ -1,0 +1,36 @@
+node_modules
+dist
+
+# ----- Secrets & credentials -----
+.env
+.env.*
+!.env.example        # allow the template to be committed
+*.pem                # TLS private keys / certificates
+*.key                # private keys
+*.p8                 # Apple / JWT signing keys
+service-account.json # GCP / Firebase service accounts
+*-service-account.json
+secrets.json
+credentials.json
+
+# ----- Certificates -----
+*.crt
+*.cer
+*.der
+*.pfx
+*.p12
+
+# ----- Logs (may contain tokens or stack traces) -----
+*.log
+logs/
+
+# ----- Test & coverage output -----
+coverage/
+*.lcov
+
+# ----- Build artefacts -----
+*.tsbuildinfo
+
+# ----- OS / editor noise -----
+.DS_Store
+Thumbs.db
