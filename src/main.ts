@@ -11,7 +11,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true }); // raw body is needed to verify webhook signatures
   app.use(helmet());
   app.enableVersioning({ type: VersioningType.URI });
-  app.enableCors({ origin: env.CORS_ORIGINS ? env.CORS_ORIGINS.split(',') : false });
+  const allowedOrigins = env.CORS_ORIGINS
+    ? env.CORS_ORIGINS.split(',').map((s) => s.trim().replace(/\/+$/, '')).filter(Boolean)
+    : [];
+  app.enableCors({
+    origin: allowedOrigins.length > 0 ? allowedOrigins : false,
+    credentials: true,
+  });
   if (env.NODE_ENV !== 'production') {
     const doc = SwaggerModule.createDocument(app, new DocumentBuilder().setTitle('SALA API').setVersion('0.1').addBearerAuth().build());
     SwaggerModule.setup('docs', app, doc);
